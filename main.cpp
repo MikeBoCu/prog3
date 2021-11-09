@@ -6,6 +6,7 @@
 #include <locale>
 #include <random>
 
+//check if file has Byte order mark, skips it if it does
 void SkipBOM(std::ifstream &in) {
     char container[3] = {0};
     in.read(container, 3);
@@ -39,7 +40,6 @@ void setCaps(std::string &token) {
 }
 
 void printPasswords(std::string *passwords){
-
     for(int i = 0; i < 20; i++){
         std::cout << passwords[i] << std::endl;
     }
@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
     if(argc > 1)
         std::ifstream myfile(argv[1]);
 
-    //text files have gibberish at the beginning, this skips it.
+    //text files have Byte order mark at the beginning, this skips it.
     SkipBOM(myfile);
 
     //reads the file and adds token to a set.
@@ -109,7 +109,7 @@ int main(int argc, char* argv[]) {
             passwordString.append(" " + *iterator);
             iterator = passwordTokens.begin();
 
-            //checks that the same token isnt used twice in the same password
+            //checks that the same token isn't used twice in the same password
             do {
                 numOfIterations = getRandInt(1, static_cast<int>( passwordTokens.size()));
             } while (arrayContains(usedIterations, numOfIterations));
